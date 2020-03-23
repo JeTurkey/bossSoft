@@ -16,7 +16,7 @@
                 <div class="card">
                     <%= item.phonenumber %>
                     <div class="form-group">
-                        <button class="btn-success"> <a href="/<%=item.belongto%>/<%=item._id%>/update"> 修改 </a> </button>
+                        
                         <form action="/<%=item.belongto%>/<%=item._id%>/delete?_method=DELETE" method="POST">
                             <button class="btn-warning"> 删除 </button>
                         </form>
