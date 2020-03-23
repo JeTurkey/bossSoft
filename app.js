@@ -77,7 +77,7 @@ app.post('/addChildren', function(req, res){
 
 app.get('/:phonenumber', function(req, res){
     kid.find({belongto: req.params.phonenumber}).exec(function(err, rst){
-        res.render('kidsMenu', {data: rst})
+        res.render('kidsMenu', {data: rst, currentNumber: req.params.phonenumber})
     })
 })
 
