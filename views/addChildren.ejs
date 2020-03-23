@@ -1,0 +1,28 @@
+<%- include ("partials/header") %>
+
+<div class="container">
+    
+    <div class="row">
+        <div class="col-10">
+            <form action="/addChildren" method="POST">
+                <div class="card">
+                    <div class="from-group">
+                        <label for="inputParentNumber">手机号</label>
+                        <input class="form-control" type="text" name="belongto" id="inputParentNumber" value="<%=belongto%>" readonly="true">
+                    </div>
+                    <div class="from-group">
+                        <label for="inputParentNumber">子手机号</label>
+                        <input class="form-control" type="text" name="phonenumber" id="inputParentNumber">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary"> 提交 </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<%- include ("partials/footer") %>

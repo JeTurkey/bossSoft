@@ -1,0 +1,35 @@
+<%- include ("partials/header") %>
+
+<div class="container">
+    <div class="row">
+        <div class="col-10">
+            <button onclick="window.location.href='/<%=data[0].belongto%>/addChildren';"> 添加子账号 </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            
+
+            请选择子账号
+
+            <% data.forEach(function(item){ %>
+                <div class="card">
+                    <%= item.phonenumber %>
+                    <div class="form-group">
+                        <button class="btn-success"> <a href="/<%=item.belongto%>/<%=item._id%>/update"> 修改 </a> </button>
+                        <form action="/<%=item.belongto%>/<%=item._id%>/delete?_method=DELETE" method="POST">
+                            <button class="btn-warning"> 删除 </button>
+                        </form>
+
+                        
+                    </div>
+                </div>
+            <% }) %>
+            
+        </div>
+    </div>
+</div>
+
+
+
+<%- include ("partials/footer") %>
