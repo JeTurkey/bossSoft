@@ -3,29 +3,29 @@
 <div class="container">
     <div class="row">
         <div class="col-10">
-            <button onclick="window.location.href='/<%=currentNumber%>/addChildren';"> 添加子账号 </button>
+            <button onclick="window.location.href='/<%=currentNumber%>/addChildren';"> 添加 </button>
         </div>
     </div>
     <div class="row">
         <div class="col-10">
-            
 
-            请选择子账号
+
+
 
             <% data.forEach(function(item){ %>
-                <div class="card">
-                    <%= item.phonenumber %>
-                    <div class="form-group">
-                        
-                        <form action="/<%=item.belongto%>/<%=item._id%>/delete?_method=DELETE" method="POST">
-                            <button class="btn-warning"> 删除 </button>
-                        </form>
+            <div class="card">
+                <%= item.phonenumber %>
+                <div class="form-group">
 
-                        
-                    </div>
+                    <form action="/<%=item.belongto%>/<%=item._id%>/delete?_method=DELETE" method="POST">
+                        <button class="btn-warning"> 删除 </button>
+                    </form>
+
+
                 </div>
+            </div>
             <% }) %>
-            
+
         </div>
     </div>
 </div>
