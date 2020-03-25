@@ -99,7 +99,7 @@ app.get('/:phonenumber/addChildren', function(req, res){
 })
 
 app.post('/addChildren', function(req, res){
-    var sql = "INISERT INTO children (belongto, phonenumber) VALUES (" + req.body.belongto + ", " + req.body.phonenumber + ");"
+    var sql = "INSERT INTO children (belongto, phonenumber) VALUES (" + req.body.belongto + ", " + req.body.phonenumber + ");"
     con.query(sql, function(err, rst){
         res.redirect('/')
     })
