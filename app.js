@@ -8,13 +8,29 @@ var express                 = require('express'),
     User                    = require("./models/users"),
     passportLocalMongoose   = require("passport-local-mongoose"),
     master                  = require('./models/mastersDB'),
-    kid                     = require('./models/kidsDB')
+    kid                     = require('./models/kidsDB'),
+    mysql                   = require('mysql')
 
 
 
 mongoose.connect("mongodb://localhost/bosssoft", {
     useNewUrlParser: true,
     useFindAndModify: false
+})
+
+var con = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "rayshi1994",
+    database: "userModule"
+})
+
+con.connect((err) => {
+    if(!err){
+        console.log('DB connection success')
+    }else{
+        console.log('DB connection failed \n Error : ' + JSON.stringify(err, undefined, 2))
+    }
 })
 
 var app = express();
@@ -45,10 +61,25 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+
+
+
 app.get('/', function(req, res){
-    master.find({}).exec(function(err, rst){
-        res.render('index', {data: rst})
+    
+    con.query("SELECT * FROM parent", function (err, rst) {
+        if (err) {
+            console.log(err)
+        };
+        console.log(rst)
+        res.render('index', {
+            data: rst
+        })
     })
+    
+    // master.find({}).exec(function(err, rst){
+    //     res.render('index', {data: rst})
+    // })
     
 })
 
@@ -62,32 +93,42 @@ app.post('/addParent', function(req, res){
     })
 })
 
+// add children page
 app.get('/:phonenumber/addChildren', function(req, res){
     res.render('addChildren', {belongto: req.params.phonenumber})
 })
 
 app.post('/addChildren', function(req, res){
-    kid.create({
-        belongto: req.body.belongto,
-        phonenumber: req.body.phonenumber
-    }, function(err, rst){
+    var sql = "INISERT INTO children (belongto, phonenumber) VALUES (" + req.body.belongto + ", " + req.body.phonenumber + ");"
+    con.query(sql, function(err, rst){
         res.redirect('/')
     })
+
+
+    // kid.create({
+    //     belongto: req.body.belongto,
+    //     phonenumber: req.body.phonenumber
+    // }, function(err, rst){
+    //     res.redirect('/')
+    // })
 })
 
 app.get('/:phonenumber', function(req, res){
-    kid.find({belongto: req.params.phonenumber}).exec(function(err, rst){
+    con.query("SELECT * FROM children WHERE belongto=" + req.params.phonenumber + ";", function(err, rst){
         res.render('kidsMenu', {data: rst, currentNumber: req.params.phonenumber})
     })
+
+    
 })
 
+// 编辑号码
 app.get('/:belongto/:id/update', function(req, res){
     kid.findById(req.params.id).exec(function(err, rst){
         res.render('updatePage', {data: rst})
     })
 
 })
-
+// 更新号码的POST
 app.put('/:belongto/:id/update', function(req, res){
     kid.findByIdAndUpdate(req.params.id, req.body.info, function(err, rst){
         if(err){
@@ -101,14 +142,21 @@ app.put('/:belongto/:id/update', function(req, res){
     })
 })
 
+// Delete号码
 app.delete('/:belong/:id/delete', function(req, res){
-    kid.findByIdAndRemove(req.params.id, function(err){
-        if(err){
-            res.redirect('/')
-        }else{
-            res.redirect('/')
-        }
+    var sql = "DELETE FROM children WHERE phonenumber="+req.params.id+";"
+    con.query(sql, function(err, rst){
+        res.redirect('/')
     })
+
+
+    // kid.findByIdAndRemove(req.params.id, function(err){
+    //     if(err){
+    //         res.redirect('/')
+    //     }else{
+    //         res.redirect('/')
+    //     }
+    // })
 })
 
 

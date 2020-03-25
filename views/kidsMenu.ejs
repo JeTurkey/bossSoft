@@ -17,7 +17,7 @@
                 <%= item.phonenumber %>
                 <div class="form-group">
 
-                    <form action="/<%=item.belongto%>/<%=item._id%>/delete?_method=DELETE" method="POST">
+                    <form action="/<%=item.belongto%>/<%=item.phonenumber%>/delete?_method=DELETE" method="POST">
                         <button class="btn-warning"> 删除 </button>
                     </form>
 
